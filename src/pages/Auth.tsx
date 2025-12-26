@@ -26,9 +26,20 @@ const Auth = () => {
       return;
     }
     login(loginForm.username, loginForm.password);
-    toast.success("おかえりなさい！");
-    navigate("/");
+    
+    // Check if this is a new user's first login
+    const isNewUser = localStorage.getItem("cafe_haven_is_new_user");
+    if (isNewUser) {
+      localStorage.removeItem("cafe_haven_is_new_user");
+      toast.success("ようこそ！設定を行いましょう。");
+      navigate("/preferences");
+    } else {
+      toast.success("おかえりなさい！");
+      navigate("/");
+    }
   };
+
+  const [activeTab, setActiveTab] = useState("login");
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,9 +51,13 @@ const Auth = () => {
       toast.error("パスワードが一致しません");
       return;
     }
+    // Mark as new user before signup
+    localStorage.setItem("cafe_haven_is_new_user", "true");
     signup(signupForm.username, signupForm.email, signupForm.password);
-    toast.success("アカウントが作成されました！");
-    navigate("/preferences");
+    toast.success("アカウントが作成されました！ログインしてください。");
+    // Switch to login tab instead of navigating
+    setActiveTab("login");
+    setLoginForm({ username: signupForm.username, password: "" });
   };
 
   return (
@@ -62,7 +77,7 @@ const Auth = () => {
             <CardDescription>ログインまたは新規アカウントを作成</CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="login" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-secondary/50">
                 <TabsTrigger value="login">ログイン</TabsTrigger>
                 <TabsTrigger value="signup">新規登録</TabsTrigger>

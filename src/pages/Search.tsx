@@ -7,6 +7,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Coffee } from "lucide-react";
+import { flexibleMatch } from "@/lib/normalize-text";
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -31,13 +32,12 @@ const Search = () => {
   const filteredAndSortedCafes = () => {
     const allCafes = getAllCafes();
     let results = allCafes.filter((cafe) => {
-      // Text search
+      // Text search with Vietnamese diacritic support
       if (queryParam) {
-        const query = queryParam.toLowerCase();
         const matchesQuery =
-          cafe.name.toLowerCase().includes(query) ||
-          cafe.address.toLowerCase().includes(query) ||
-          cafe.tags.some((tag) => tag.toLowerCase().includes(query));
+          flexibleMatch(cafe.name, queryParam) ||
+          flexibleMatch(cafe.address, queryParam) ||
+          cafe.tags.some((tag) => flexibleMatch(tag, queryParam));
         if (!matchesQuery) return false;
       }
 
