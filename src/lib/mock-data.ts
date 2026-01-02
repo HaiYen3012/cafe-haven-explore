@@ -47,7 +47,7 @@ const mockCafes: Cafe[] = [
   {
     id: 1,
     name: "Highlands Coffee",
-    address: "123 Hai Bà Trưng, Hoàn Kiếm, Hanoi",
+    address: "123 Hai Ba Trung, Hoan Kiem, Hanoi (ハイバーチュン通り、ホアンキエム区、ハノイ)",
     lat: 21.027,
     lng: 105.834,
     rating: 4.3,
@@ -76,7 +76,7 @@ const mockCafes: Cafe[] = [
   {
     id: 2,
     name: "The Coffee House",
-    address: "45 Trần Đại Nghĩa, Hai Bà Trưng, Hanoi",
+    address: "45 Tran Dai Nghia, Hai Ba Trung, Hanoi (チャンダイギア通り、ハイバーチュン区、ハノイ)",
     lat: 21.023,
     lng: 105.842,
     rating: 4.5,
@@ -103,7 +103,7 @@ const mockCafes: Cafe[] = [
   {
     id: 3,
     name: "Cộng Cà Phê",
-    address: "78 Lê Duẩn, Đống Đa, Hanoi",
+    address: "78 Le Duan, Dong Da, Hanoi (レーズアン通り、ドンダー区、ハノイ)",
     lat: 21.018,
     lng: 105.828,
     rating: 4.3,
@@ -129,7 +129,7 @@ const mockCafes: Cafe[] = [
   {
     id: 4,
     name: "Starbucks Reserve",
-    address: "12 Lý Thường Kiệt, Hoàn Kiếm, Hanoi",
+    address: "12 Ly Thuong Kiet, Hoan Kiem, Hanoi (リートゥオンキエット通り、ホアンキエム区、ハノイ)",
     lat: 21.029,
     lng: 105.835,
     rating: 4.6,
@@ -155,7 +155,7 @@ const mockCafes: Cafe[] = [
   {
     id: 5,
     name: "Maison Marou",
-    address: "89 Bà Triệu, Hai Bà Trưng, Hanoi",
+    address: "89 Ba Trieu, Hai Ba Trung, Hanoi (バーチウ通り、ハイバーチュン区、ハノイ)",
     lat: 21.025,
     lng: 105.838,
     rating: 4.9,
@@ -181,7 +181,7 @@ const mockCafes: Cafe[] = [
   {
     id: 6,
     name: "Puku Café & Sports Bar",
-    address: "34 Tràng Tiền, Hoàn Kiếm, Hanoi",
+    address: "34 Trang Tien, Hoan Kiem, Hanoi (チャンティエン通り、ホアンキエム区、ハノイ)",
     lat: 21.028,
     lng: 105.852,
     rating: 4.2,
@@ -207,7 +207,7 @@ const mockCafes: Cafe[] = [
   {
     id: 7,
     name: "Hanoi Social Club",
-    address: "6 Hội Vũ, Hoàn Kiếm, Hanoi",
+    address: "6 Hoi Vu, Hoan Kiem, Hanoi (ホイヴー通り、ホアンキエム区、ハノイ)",
     lat: 21.031,
     lng: 105.847,
     rating: 4.7,
@@ -233,7 +233,7 @@ const mockCafes: Cafe[] = [
   {
     id: 8,
     name: "Tranquil Books & Coffee",
-    address: "5 Nguyễn Quang Bích, Hoàn Kiếm, Hanoi",
+    address: "5 Nguyen Quang Bich, Hoan Kiem, Hanoi (グエンクアンビック通り、ホアンキエム区、ハノイ)",
     lat: 21.032,
     lng: 105.845,
     rating: 4.9,
@@ -259,7 +259,7 @@ const mockCafes: Cafe[] = [
   {
     id: 9,
     name: "Dog & Bee Café",
-    address: "92 Nguyễn Du, Hai Bà Trưng, Hanoi",
+    address: "92 Nguyen Du, Hai Ba Trung, Hanoi (グエンズー通り、ハイバーチュン区、ハノイ)",
     lat: 21.020,
     lng: 105.841,
     rating: 4.4,
@@ -285,7 +285,7 @@ const mockCafes: Cafe[] = [
   {
     id: 10,
     name: "Giang Café (Egg Coffee)",
-    address: "39 Nguyễn Hữu Huân, Hoàn Kiếm, Hanoi",
+    address: "39 Nguyen Huu Huan, Hoan Kiem, Hanoi (グエンフーフアン通り、ホアンキエム区、ハノイ)",
     lat: 21.033,
     lng: 105.851,
     rating: 4.8,
@@ -311,7 +311,7 @@ const mockCafes: Cafe[] = [
   {
     id: 11,
     name: "Loading T Café",
-    address: "108 Phan Đình Phùng, Ba Đình, Hanoi",
+    address: "108 Phan Dinh Phung, Ba Dinh, Hanoi (ファンディンフン通り、バーディン区、ハノイ)",
     lat: 21.035,
     lng: 105.830,
     rating: 4.5,
@@ -337,7 +337,7 @@ const mockCafes: Cafe[] = [
   {
     id: 12,
     name: "Loft 29 Café",
-    address: "29 Tống Duy Tân, Hoàn Kiếm, Hanoi",
+    address: "29 Tong Duy Tan, Hoan Kiem, Hanoi (トンズイタン通り、ホアンキエム区、ハノイ)",
     lat: 21.030,
     lng: 105.849,
     rating: 4.6,
@@ -363,7 +363,7 @@ const mockCafes: Cafe[] = [
   {
     id: 13,
     name: "Xofa Café & Bistro",
-    address: "54 Thái Hà, Đống Đa, Hanoi",
+    address: "54 Thai Ha, Dong Da, Hanoi (タイハー通り、ドンダー区、ハノイ)",
     lat: 21.015,
     lng: 105.825,
     rating: 4.4,
@@ -389,7 +389,7 @@ const mockCafes: Cafe[] = [
   {
     id: 14,
     name: "Sói Biển Café",
-    address: "23 Quán Thánh, Ba Đình, Hanoi",
+    address: "23 Quan Thanh, Ba Dinh, Hanoi (クアンタン通り、バーディン区、ハノイ)",
     lat: 21.037,
     lng: 105.832,
     rating: 4.7,
@@ -415,7 +415,7 @@ const mockCafes: Cafe[] = [
   {
     id: 15,
     name: "Cafe Pho Cổ",
-    address: "11 Hàng Gai, Hoàn Kiếm, Hanoi",
+    address: "11 Hang Gai, Hoan Kiem, Hanoi (ハンガイ通り、ホアンキエム区、ハノイ)",
     lat: 21.034,
     lng: 105.853,
     rating: 4.3,
