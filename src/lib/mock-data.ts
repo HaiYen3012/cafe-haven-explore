@@ -60,7 +60,7 @@ const mockCafes: Cafe[] = [
         "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop",
       ],
       interior: [
-        "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&h=400&fit=crop",
+        "https://i.pinimg.com/1200x/83/99/fa/8399fa0295e11e5c2c451df7fc08fcf2.jpg",
         "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&h=400&fit=crop",
       ],
       food: [
@@ -115,7 +115,7 @@ const mockCafes: Cafe[] = [
         "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=600&h=400&fit=crop",
       ],
       interior: [
-        "https://images.unsplash.com/photo-1572282464867-8a0b2c052efe?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=600&h=400&fit=crop",
       ],
       food: [
         "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=600&h=400&fit=crop",
@@ -271,10 +271,10 @@ const mockCafes: Cafe[] = [
         "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&h=400&fit=crop",
       ],
       interior: [
-        "https://images.unsplash.com/photo-1585581701825-42e1ac22a3d2?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&h=400&fit=crop",
       ],
       food: [
-        "https://images.unsplash.com/photo-1584554231218-741d11de35d7?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&h=400&fit=crop",
       ],
     },
     description: "遊び心のある雰囲気と毛むくじゃらの友達がいる犬に優しいカフェ。",
@@ -346,10 +346,10 @@ const mockCafes: Cafe[] = [
     tags: ["ルーフトップ", "屋外席", "インスタ映え", "Wi-Fi"],
     photos: {
       menu: [
-        "https://images.unsplash.com/photo-1599898593425-f97d4ecf2c0e?w=600&h=400&fit=crop",
+        "https://i.pinimg.com/1200x/b8/5f/4f/b85f4f56ef2419f679ef69fec2032fb8.jpg?w=600&h=400&fit=crop",
       ],
       interior: [
-        "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=600&h=400&fit=crop",
+        "https://i.pinimg.com/1200x/b8/5f/4f/b85f4f56ef2419f679ef69fec2032fb8.jpg",
       ],
       food: [
         "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop",
@@ -427,7 +427,7 @@ const mockCafes: Cafe[] = [
         "https://images.unsplash.com/photo-1501959915551-4e8d30928317?w=600&h=400&fit=crop",
       ],
       interior: [
-        "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop",
+        "https://i.pinimg.com/1200x/e7/04/f8/e704f859e505c51f81243373e592749c.jpg",
       ],
       food: [
         "https://images.unsplash.com/photo-1572478204481-a9bb598c77f7?w=600&h=400&fit=crop",
