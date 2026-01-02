@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Search from "./pages/Search";
 import CafeDetail from "./pages/CafeDetail";
 import Profile from "./pages/Profile";
+import Favorites from "./pages/Favorites";
 import Auth from "./pages/Auth";
 import Preferences from "./pages/Preferences";
 import AddCafe from "./pages/AddCafe";
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/search" element={<Search />} />
             <Route path="/cafe/:id" element={<CafeDetail />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/preferences" element={<Preferences />} />
             <Route path="/add-cafe" element={<AddCafe />} />

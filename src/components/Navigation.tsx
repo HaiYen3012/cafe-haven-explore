@@ -32,7 +32,7 @@ export const Navigation = () => {
               探索
             </Button>
           </Link>
-          <Link to="/profile">
+          <Link to="/favorites">
             <Button variant="ghost" className="hover:bg-secondary/70">
               <Heart className="h-4 w-4 mr-2" />
               お気に入り
@@ -57,8 +57,8 @@ export const Navigation = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
                     <Link to="/profile" className="w-full cursor-pointer">
-                      <Heart className="h-4 w-4 mr-2" />
-                      マイお気に入り
+                      <User className="h-4 w-4 mr-2" />
+                      プロフィール
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
