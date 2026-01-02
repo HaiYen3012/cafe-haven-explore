@@ -155,8 +155,9 @@ const CafeDetail = () => {
     localStorage.setItem("review_likes", JSON.stringify(updatedLikes));
   };
 
-  const getLikesCount = (reviewId: string | number): number => {
-    return reviewLikes[reviewId]?.length || 0;
+  const getLikesCount = (reviewId: string | number, baseLikes: number = 0): number => {
+    const userLikesCount = reviewLikes[reviewId]?.length || 0;
+    return baseLikes + userLikesCount;
   };
 
   const isLikedByUser = (reviewId: string | number): boolean => {
@@ -164,19 +165,29 @@ const CafeDetail = () => {
     return reviewLikes[reviewId]?.includes(user.username) || false;
   };
 
-  // Merge mock reviews with user comments and add likes count
-  const allReviewsWithLikes = [
-    ...cafeReviews.map(r => ({ ...r, likes: r.likes || 0, timestamp: r.timestamp || 0, currentLikes: getLikesCount(r.id) })),
-    ...userComments.map(c => ({ ...c, currentLikes: getLikesCount(c.id) }))
-  ];
+  // Merge mock reviews with user comments and add likes count - recalculate when reviewLikes changes
+  const getAllReviewsWithLikes = () => {
+    return [
+      ...cafeReviews.map(r => ({ 
+        ...r, 
+        likes: r.likes || 0, 
+        timestamp: r.timestamp || 0, 
+        currentLikes: getLikesCount(r.id, r.likes || 0) 
+      })),
+      ...userComments.map(c => ({ 
+        ...c, 
+        currentLikes: getLikesCount(c.id, c.likes || 0) 
+      }))
+    ];
+  };
   
   // Sort reviews based on selected sort option
-  const sortedReviews = [...allReviewsWithLikes].sort((a, b) => {
+  const sortedReviews = getAllReviewsWithLikes().sort((a, b) => {
     if (sortBy === "mostLiked") {
       return b.currentLikes - a.currentLikes;
     } else {
-      // Sort by earliest (oldest first)
-      return a.timestamp - b.timestamp;
+      // Sort by newest first (most recent)
+      return b.timestamp - a.timestamp;
     }
   });
 
@@ -756,7 +767,7 @@ const CafeDetail = () => {
                               <ThumbsUp className={`h-4 w-4 ${
                                 isLikedByUser(review.id) ? "fill-current" : ""
                               }`} />
-                              <span>{getLikesCount(review.id)}</span>
+                              <span>{review.currentLikes}</span>
                             </button>
                           </div>
                         </div>
