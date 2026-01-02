@@ -1,4 +1,4 @@
-import { Heart, MapPin, Star } from "lucide-react";
+import { Heart, MapPin, Star, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Cafe } from "@/lib/mock-data";
 import { Badge } from "./ui/badge";
@@ -12,10 +12,19 @@ interface CafeCardProps {
 
 export const CafeCard = ({ cafe }: CafeCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [currency, setCurrency] = useState<"VND" | "JPY">("VND");
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(favorites.includes(cafe.id));
+
+    const savedCurrency = localStorage.getItem("currency_preference") as
+      | "VND"
+      | "JPY"
+      | null;
+    if (savedCurrency) {
+      setCurrency(savedCurrency);
+    }
   }, [cafe.id]);
 
   const toggleFavorite = (e: React.MouseEvent) => {
@@ -29,10 +38,25 @@ export const CafeCard = ({ cafe }: CafeCardProps) => {
     setIsFavorite(!isFavorite);
   };
 
-  const priceDisplay = {
-    cheap: "₫ • <100k",
-    moderate: "₫₫ • 100-200k",
-    expensive: "₫₫₫ • >200k",
+  const getPriceDisplay = (priceRange: string) => {
+    if (currency === "VND") {
+      if (priceRange === "cheap") return "< 100.000 VND";
+      if (priceRange === "moderate") return "100.000 - 200.000 VND";
+      if (priceRange === "expensive") return "> 200.000 VND";
+    } else {
+      if (priceRange === "cheap") return "< 600 JPY";
+      if (priceRange === "moderate") return "600 - 1200 JPY";
+      if (priceRange === "expensive") return "> 1200 JPY";
+    }
+    return "";
+  };
+
+  const toggleCurrency = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newCurrency = currency === "VND" ? "JPY" : "VND";
+    setCurrency(newCurrency);
+    localStorage.setItem("currency_preference", newCurrency);
   };
 
   return (
@@ -68,15 +92,24 @@ export const CafeCard = ({ cafe }: CafeCardProps) => {
               <span className="font-medium text-sm">{cafe.rating}</span>
             </div>
           </div>
-          
+
           <p className="text-sm text-muted-foreground line-clamp-1 flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
             {cafe.address}
           </p>
-          
+
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>{priceDisplay[cafe.price_range]}</span>
-            {cafe.distance && <span>{cafe.distance} km away</span>}
+            <div className="flex items-center gap-1.5">
+              <span>{getPriceDisplay(cafe.price_range)}</span>
+              <button
+                onClick={toggleCurrency}
+                className="p-0.5 hover:bg-secondary rounded transition-colors"
+                title={`切り替え: ${currency === "VND" ? "JPY" : "VND"}`}
+              >
+                <RefreshCw className="h-3 w-3" />
+              </button>
+            </div>
+            {cafe.distance && <span>{cafe.distance} km</span>}
           </div>
 
           <div className="flex gap-1.5 flex-wrap pt-1">
@@ -90,12 +123,15 @@ export const CafeCard = ({ cafe }: CafeCardProps) => {
               </Badge>
             ))}
             {cafe.tags.length > 3 && (
-              <Badge variant="secondary" className="text-xs px-2 py-0.5 bg-secondary/50">
+              <Badge
+                variant="secondary"
+                className="text-xs px-2 py-0.5 bg-secondary/50"
+              >
                 +{cafe.tags.length - 3}
               </Badge>
             )}
           </div>
-          
+
           <p className="text-xs text-muted-foreground pt-1">
             {cafe.reviews} レビュー
           </p>

@@ -112,7 +112,7 @@ export const FilterPanel = ({
       </div>
 
       <div className="space-y-3">
-        <Label className="text-sm font-medium">Price Range</Label>
+        <Label className="text-sm font-medium">価格帯</Label>
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -149,7 +149,7 @@ export const FilterPanel = ({
 
       <div className="pt-4 border-t border-border">
         <p className="text-sm text-muted-foreground">
-          <span className="font-semibold text-foreground">{resultCount}</span> café{resultCount !== 1 ? "s" : ""} match your criteria
+          <span className="font-semibold text-foreground">{resultCount}</span> 件のカフェが見つかりました
         </p>
       </div>
     </Card>

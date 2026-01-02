@@ -99,15 +99,15 @@ const Index = () => {
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
-              <span>15+ cafés in Hanoi</span>
+              <span>ハノイに15以上のカフェ</span>
             </div>
             <div className="flex items-center gap-2">
               <Coffee className="h-4 w-4 text-primary" />
-              <span>Real reviews & ratings</span>
+              <span>本物のレビューと評価</span>
             </div>
             <div className="flex items-center gap-2">
               <Heart className="h-4 w-4 text-primary" />
-              <span>Save your favorites</span>
+              <span>お気に入りを保存</span>
             </div>
           </div>
         </div>

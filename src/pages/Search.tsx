@@ -108,10 +108,10 @@ const Search = () => {
             {queryParam && (
               <div className="mb-6">
                 <h1 className="text-2xl font-bold text-foreground">
-                  Search results for "{queryParam}"
+                  「{queryParam}」の検索結果
                 </h1>
                 <p className="text-muted-foreground mt-1">
-                  {results.length} café{results.length !== 1 ? "s" : ""} found
+                  {results.length} 件のカフェが見つかりました
                 </p>
               </div>
             )}
@@ -125,12 +125,12 @@ const Search = () => {
             ) : (
               <div className="text-center py-16">
                 <Coffee className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold text-foreground mb-2">No cafés found</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-2">カフェが見つかりませんでした</h2>
                 <p className="text-muted-foreground mb-6">
-                  Try adjusting your filters or search terms
+                  フィルターや検索条件を変更してみてください
                 </p>
                 <Link to="/search">
-                  <Button variant="outline">Clear all filters</Button>
+                  <Button variant="outline">すべてのフィルターをクリア</Button>
                 </Link>
               </div>
             )}
@@ -141,7 +141,7 @@ const Search = () => {
       {/* Mobile Filter Toggle (placeholder for future implementation) */}
       <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40">
         <Button className="shadow-hover bg-primary hover:bg-primary/90">
-          Filters & Sort ({results.length})
+          フィルター & ソート ({results.length})
         </Button>
       </div>
     </div>
