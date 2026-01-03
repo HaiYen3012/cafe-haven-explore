@@ -345,11 +345,10 @@ const CafeDetail = () => {
         </div>
 
         {/* Photo Tabs */}
-        <Tabs defaultValue="interior" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-3 bg-secondary/50">
+        <Tabs defaultValue="menu" className="w-full">
+          <TabsList className="grid w-full max-w-md grid-cols-2 bg-secondary/50">
             <TabsTrigger value="interior">店内</TabsTrigger>
             <TabsTrigger value="menu">メニュー</TabsTrigger>
-            <TabsTrigger value="food">料理と飲み物</TabsTrigger>
           </TabsList>
           <TabsContent value="interior" className="mt-4">
             <div className="grid sm:grid-cols-2 gap-4">
@@ -365,26 +364,31 @@ const CafeDetail = () => {
           </TabsContent>
           <TabsContent value="menu" className="mt-4">
             <div className="grid sm:grid-cols-2 gap-4">
-              {cafe.photos.menu.map((photo, idx) => (
-                <img
+              {(cafe.menuItems || []).map((item, idx) => (
+                <div
                   key={idx}
-                  src={photo}
-                  alt={`${cafe.name} menu ${idx + 1}`}
-                  className="w-full h-64 object-cover rounded-xl shadow-card"
-                />
+                  className="p-4 bg-secondary/20 rounded-lg shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {item.description}
+                    </p>
+                  </div>
+                  <span className="text-base font-bold text-primary">
+                    {currency === "VND"
+                      ? `${item.priceVND.toLocaleString()} VND`
+                      : `${item.priceJPY.toLocaleString()} JPY`}
+                  </span>
+                </div>
               ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="food" className="mt-4">
-            <div className="grid sm:grid-cols-2 gap-4">
-              {cafe.photos.food.map((photo, idx) => (
-                <img
-                  key={idx}
-                  src={photo}
-                  alt={`${cafe.name} food ${idx + 1}`}
-                  className="w-full h-64 object-cover rounded-xl shadow-card"
-                />
-              ))}
+              {(!cafe.menuItems || cafe.menuItems.length === 0) && (
+                <div className="text-muted-foreground text-center py-8">
+                  メニュー情報がありません
+                </div>
+              )}
             </div>
           </TabsContent>
         </Tabs>

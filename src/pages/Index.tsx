@@ -104,7 +104,7 @@ const Index = () => {
               あなたにぴったりの
               <span className="block text-primary">カフェを発見</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl font-bold text-foreground max-w-2xl mx-auto">
               ベトナムで素敵なコーヒー、Wi-Fi、雰囲気のあるカフェを見つけよう
             </p>
           </div>
@@ -113,7 +113,7 @@ const Index = () => {
             <SearchBar variant="hero" />
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-bold text-foreground">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
               <span>ベトナムに15以上のカフェ</span>
@@ -180,7 +180,7 @@ const Index = () => {
                 <MapPin className="h-7 w-7" />
               </div>
               <h3 className="text-xl font-semibold text-foreground">スマートフィルター</h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground fold-bold">
                 Wi-Fi、ペット可、静か、賑やかなど、必要なものを見つけよう
               </p>
             </div>

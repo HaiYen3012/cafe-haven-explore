@@ -17,6 +17,12 @@
   phone: string;
   hours: string;
   distance?: number;
+  menuItems?: {
+    name: string;
+    priceVND: number;
+    priceJPY: number;
+    description: string;
+  }[];
 }
 
 export interface Review {
@@ -72,6 +78,56 @@ const mockCafes: Cafe[] = [
     phone: "0123 456 789",
     hours: "月～金: 7時～22時 · 土日: 8時～23時",
     distance: 1.2,
+    menuItems: [
+      {
+        name: "ベトナムコーヒー",
+        priceVND: 35000,
+        priceJPY: 200,
+        description: "濃厚なベトナム伝統コーヒー。",
+      },
+      {
+        name: "アイスラテ",
+        priceVND: 45000,
+        priceJPY: 260,
+        description: "ミルクたっぷりのアイスラテ。",
+      },
+      {
+        name: "バインミー",
+        priceVND: 50000,
+        priceJPY: 290,
+        description: "ベトナム風サンドイッチ。",
+      },
+      {
+        name: "エッグコーヒー",
+        priceVND: 40000,
+        priceJPY: 230,
+        description: "クリーミーな卵入りコーヒー。",
+      },
+      {
+        name: "カフェスアダー",
+        priceVND: 38000,
+        priceJPY: 220,
+        description: "練乳入りアイスコーヒー。",
+      },
+      {
+        name: "チョコレートケーキ",
+        priceVND: 60000,
+        priceJPY: 340,
+        description: "濃厚なチョコレートケーキ。",
+      },
+      {
+        name: "抹茶ラテ",
+        priceVND: 55000,
+        priceJPY: 310,
+        description: "香り高い抹茶とミルクのラテ。",
+      },
+      {
+        name: "フルーツスムージー",
+        priceVND: 50000,
+        priceJPY: 280,
+        description: "新鮮なフルーツのスムージー。",
+      },
+    ],
   },
   {
     id: 2,
@@ -99,6 +155,56 @@ const mockCafes: Cafe[] = [
     phone: "0987 654 321",
     hours: "月～日: 8時～23時",
     distance: 2.1,
+    menuItems: [
+      {
+        name: "抹茶ラテ",
+        priceVND: 60000,
+        priceJPY: 350,
+        description: "香り高い抹茶とミルクの和風ラテ。",
+      },
+      {
+        name: "チーズケーキ",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "濃厚でクリーミーな自家製チーズケーキ。",
+      },
+      {
+        name: "エスプレッソ",
+        priceVND: 40000,
+        priceJPY: 230,
+        description: "深い味わいのエスプレッソ。",
+      },
+      {
+        name: "カフェモカ",
+        priceVND: 55000,
+        priceJPY: 320,
+        description: "チョコレートとコーヒーの絶妙なバランス。",
+      },
+      {
+        name: "キャラメルマキアート",
+        priceVND: 65000,
+        priceJPY: 370,
+        description: "キャラメル風味の人気ドリンク。",
+      },
+      {
+        name: "バナナスムージー",
+        priceVND: 50000,
+        priceJPY: 280,
+        description: "新鮮なバナナのスムージー。",
+      },
+      {
+        name: "抹茶チーズケーキ",
+        priceVND: 75000,
+        priceJPY: 430,
+        description: "抹茶とチーズの濃厚な味わい。",
+      },
+      {
+        name: "フルーツタルト",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "季節のフルーツを使ったタルト。",
+      },
+    ],
   },
   {
     id: 3,
@@ -125,6 +231,56 @@ const mockCafes: Cafe[] = [
     phone: "0901 234 567",
     hours: "毎日: 7時～23時",
     distance: 3.5,
+    menuItems: [
+      {
+        name: "ココナッツコーヒー",
+        priceVND: 50000,
+        priceJPY: 290,
+        description: "名物ココナッツコーヒー。",
+      },
+      {
+        name: "ベトナムティー",
+        priceVND: 30000,
+        priceJPY: 170,
+        description: "伝統的なベトナムティー。",
+      },
+      {
+        name: "バナナケーキ",
+        priceVND: 40000,
+        priceJPY: 230,
+        description: "しっとりバナナケーキ。",
+      },
+      {
+        name: "カフェスアダー",
+        priceVND: 35000,
+        priceJPY: 200,
+        description: "練乳入りアイスコーヒー。",
+      },
+      {
+        name: "エッグコーヒー",
+        priceVND: 42000,
+        priceJPY: 240,
+        description: "クリーミーな卵入りコーヒー。",
+      },
+      {
+        name: "マンゴースムージー",
+        priceVND: 48000,
+        priceJPY: 270,
+        description: "新鮮なマンゴーのスムージー。",
+      },
+      {
+        name: "チョコレートブラウニー",
+        priceVND: 60000,
+        priceJPY: 340,
+        description: "濃厚なチョコレートブラウニー。",
+      },
+      {
+        name: "フルーツサラダ",
+        priceVND: 55000,
+        priceJPY: 310,
+        description: "季節のフルーツサラダ。",
+      },
+    ],
   },
   {
     id: 4,
@@ -151,6 +307,56 @@ const mockCafes: Cafe[] = [
     phone: "0912 345 678",
     hours: "月～日: 6時～23時",
     distance: 0.8,
+    menuItems: [
+      {
+        name: "カフェラテ",
+        priceVND: 65000,
+        priceJPY: 370,
+        description: "まろやかなミルクとエスプレッソ。",
+      },
+      {
+        name: "キャラメルマキアート",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "キャラメル風味の人気ドリンク。",
+      },
+      {
+        name: "チョコレートケーキ",
+        priceVND: 80000,
+        priceJPY: 460,
+        description: "濃厚なチョコレートケーキ。",
+      },
+      {
+        name: "アメリカーノ",
+        priceVND: 60000,
+        priceJPY: 340,
+        description: "すっきりとした味わいのアメリカーノ。",
+      },
+      {
+        name: "抹茶フラペチーノ",
+        priceVND: 75000,
+        priceJPY: 430,
+        description: "抹茶の香り豊かなフラペチーノ。",
+      },
+      {
+        name: "ストロベリースコーン",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "いちご入りのスコーン。",
+      },
+      {
+        name: "ブルーベリーマフィン",
+        priceVND: 75000,
+        priceJPY: 430,
+        description: "ブルーベリーたっぷりのマフィン。",
+      },
+      {
+        name: "サーモンサンド",
+        priceVND: 90000,
+        priceJPY: 520,
+        description: "サーモンとクリームチーズのサンドイッチ。",
+      },
+    ],
   },
   {
     id: 5,
@@ -177,6 +383,56 @@ const mockCafes: Cafe[] = [
     phone: "0909 876 543",
     hours: "月～日: 9時～21時",
     distance: 1.5,
+    menuItems: [
+      {
+        name: "チョコレートドリンク",
+        priceVND: 90000,
+        priceJPY: 510,
+        description: "自家製チョコレートドリンク。",
+      },
+      {
+        name: "マカロン",
+        priceVND: 60000,
+        priceJPY: 340,
+        description: "フランス風マカロン。",
+      },
+      {
+        name: "チョコレートケーキ",
+        priceVND: 95000,
+        priceJPY: 540,
+        description: "濃厚なチョコレートケーキ。",
+      },
+      {
+        name: "カフェラテ",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "まろやかなミルクとエスプレッソ。",
+      },
+      {
+        name: "抹茶ガトーショコラ",
+        priceVND: 85000,
+        priceJPY: 480,
+        description: "抹茶とチョコの贅沢なケーキ。",
+      },
+      {
+        name: "フルーツタルト",
+        priceVND: 80000,
+        priceJPY: 450,
+        description: "季節のフルーツを使ったタルト。",
+      },
+      {
+        name: "エクレア",
+        priceVND: 65000,
+        priceJPY: 370,
+        description: "クリームたっぷりのエクレア。",
+      },
+      {
+        name: "アーモンドクロワッサン",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "香ばしいアーモンドのクロワッサン。",
+      },
+    ],
   },
   {
     id: 6,
@@ -203,6 +459,26 @@ const mockCafes: Cafe[] = [
     phone: "0123 987 654",
     hours: "毎日: 8時～24時",
     distance: 2.8,
+    menuItems: [
+      {
+        name: "ビール",
+        priceVND: 30000,
+        priceJPY: 170,
+        description: "冷たいビール。",
+      },
+      {
+        name: "ピザ",
+        priceVND: 120000,
+        priceJPY: 690,
+        description: "石窯で焼いた本格ピザ。",
+      },
+      {
+        name: "チキンウィング",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "スパイシーなチキンウィング。",
+      },
+    ],
   },
   {
     id: 7,
@@ -229,6 +505,26 @@ const mockCafes: Cafe[] = [
     phone: "0987 321 654",
     hours: "月～日: 8時～23時",
     distance: 1.9,
+    menuItems: [
+      {
+        name: "フレンチトースト",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "自家製フレンチトースト。",
+      },
+      {
+        name: "アボカドトースト",
+        priceVND: 80000,
+        priceJPY: 460,
+        description: "新鮮なアボカドを使ったトースト。",
+      },
+      {
+        name: "スムージーボウル",
+        priceVND: 90000,
+        priceJPY: 510,
+        description: "栄養満点のスムージーボウル。",
+      },
+    ],
   },
   {
     id: 8,
@@ -255,6 +551,26 @@ const mockCafes: Cafe[] = [
     phone: "0911 222 333",
     hours: "月～日: 7時～22時",
     distance: 2.3,
+    menuItems: [
+      {
+        name: "カフェスア",
+        priceVND: 35000,
+        priceJPY: 200,
+        description: "ベトナム風アイスコーヒー。",
+      },
+      {
+        name: "抹茶ラテ",
+        priceVND: 60000,
+        priceJPY: 350,
+        description: "香り高い抹茶とミルクの和風ラテ。",
+      },
+      {
+        name: "チーズケーキ",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "濃厚でクリーミーな自家製チーズケーキ。",
+      },
+    ],
   },
   {
     id: 9,
@@ -281,6 +597,26 @@ const mockCafes: Cafe[] = [
     phone: "0922 444 555",
     hours: "毎日: 9時～21時",
     distance: 2.7,
+    menuItems: [
+      {
+        name: "犬用クッキー",
+        priceVND: 15000,
+        priceJPY: 90,
+        description: "犬用の手作りクッキー。",
+      },
+      {
+        name: "カフェラテ",
+        priceVND: 65000,
+        priceJPY: 370,
+        description: "まろやかなミルクとエスプレッソ。",
+      },
+      {
+        name: "チョコレートケーキ",
+        priceVND: 80000,
+        priceJPY: 460,
+        description: "濃厚なチョコレートケーキ。",
+      },
+    ],
   },
   {
     id: 10,
@@ -307,6 +643,26 @@ const mockCafes: Cafe[] = [
     phone: "0905 666 777",
     hours: "毎日: 7時～22時",
     distance: 3.2,
+    menuItems: [
+      {
+        name: "エッグコーヒー",
+        priceVND: 40000,
+        priceJPY: 230,
+        description: "クリーミーで濃厚なエッグコーヒー。",
+      },
+      {
+        name: "ベトナムコーヒー",
+        priceVND: 35000,
+        priceJPY: 200,
+        description: "濃厚なベトナム伝統コーヒー。",
+      },
+      {
+        name: "バインミー",
+        priceVND: 50000,
+        priceJPY: 290,
+        description: "ベトナム風サンドイッチ。",
+      },
+    ],
   },
   {
     id: 11,
@@ -333,6 +689,26 @@ const mockCafes: Cafe[] = [
     phone: "0933 888 999",
     hours: "月～日: 9時～24時",
     distance: 4.1,
+    menuItems: [
+      {
+        name: "コーヒー",
+        priceVND: 30000,
+        priceJPY: 170,
+        description: "ホットまたはアイスのコーヒー。",
+      },
+      {
+        name: "紅茶",
+        priceVND: 25000,
+        priceJPY: 150,
+        description: "ホットまたはアイスの紅茶。",
+      },
+      {
+        name: "チョコレートケーキ",
+        priceVND: 80000,
+        priceJPY: 460,
+        description: "濃厚なチョコレートケーキ。",
+      },
+    ],
   },
   {
     id: 12,
@@ -359,6 +735,26 @@ const mockCafes: Cafe[] = [
     phone: "0944 111 222",
     hours: "毎日: 8時～23時",
     distance: 2.5,
+    menuItems: [
+      {
+        name: "カクテル",
+        priceVND: 120000,
+        priceJPY: 690,
+        description: "フルーツカクテル。",
+      },
+      {
+        name: "ビール",
+        priceVND: 30000,
+        priceJPY: 170,
+        description: "冷たいビール。",
+      },
+      {
+        name: "スナック盛り合わせ",
+        priceVND: 150000,
+        priceJPY: 860,
+        description: "おつまみの盛り合わせ。",
+      },
+    ],
   },
   {
     id: 13,
@@ -385,6 +781,26 @@ const mockCafes: Cafe[] = [
     phone: "0955 333 444",
     hours: "月～日: 8時～22時",
     distance: 4.8,
+    menuItems: [
+      {
+        name: "エッグベネディクト",
+        priceVND: 90000,
+        priceJPY: 510,
+        description: "ポーチドエッグとハムのベネディクト。",
+      },
+      {
+        name: "アサイーボウル",
+        priceVND: 80000,
+        priceJPY: 460,
+        description: "アサイーとフルーツのボウル。",
+      },
+      {
+        name: "フレンチトースト",
+        priceVND: 70000,
+        priceJPY: 400,
+        description: "自家製フレンチトースト。",
+      },
+    ],
   },
   {
     id: 14,
@@ -411,6 +827,26 @@ const mockCafes: Cafe[] = [
     phone: "0966 555 666",
     hours: "毎日: 6時～23時",
     distance: 5.3,
+    menuItems: [
+      {
+        name: "ココナッツジュース",
+        priceVND: 25000,
+        priceJPY: 150,
+        description: "フレッシュなココナッツジュース。",
+      },
+      {
+        name: "ビール",
+        priceVND: 30000,
+        priceJPY: 170,
+        description: "冷たいビール。",
+      },
+      {
+        name: "シーフードサラダ",
+        priceVND: 120000,
+        priceJPY: 690,
+        description: "新鮮なシーフードのサラダ。",
+      },
+    ],
   },
   {
     id: 15,
@@ -437,6 +873,26 @@ const mockCafes: Cafe[] = [
     phone: "0977 777 888",
     hours: "毎日: 6:00～22:00",
     distance: 3.8,
+    menuItems: [
+      {
+        name: "フォー",
+        priceVND: 50000,
+        priceJPY: 290,
+        description: "ベトナムの伝統的なヌードルスープ。",
+      },
+      {
+        name: "ベトナムコーヒー",
+        priceVND: 35000,
+        priceJPY: 200,
+        description: "濃厚なベトナム伝統コーヒー。",
+      },
+      {
+        name: "バインミー",
+        priceVND: 50000,
+        priceJPY: 290,
+        description: "ベトナム風サンドイッチ。",
+      },
+    ],
   },
 ];
 
