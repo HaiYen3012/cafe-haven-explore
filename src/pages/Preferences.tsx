@@ -66,10 +66,14 @@ const Preferences = () => {
               <Label className="text-base font-semibold">好きなカフェタイプ</Label>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: "dog", label: "🐕 ドッグカフェ" },
-                  { value: "cat", label: "🐱 キャットカフェ" },
-                  { value: "work", label: "💼 仕事向け" },
-                  { value: "quiet", label: "🤫 静か" },
+                  { value: "犬カフェ", label: "🐕 ドッグカフェ" },
+                  { value: "猫カフェ", label: "🐱 キャットカフェ" },
+                  { value: "作業向き", label: "💼 作業向き" },
+                  { value: "静か", label: "🤫 静か" },
+                  { value: "会話向き", label: "💬 会話向き" },
+                  { value: "一人でも入りやすい", label: "👤 一人でも入りやすい" },
+                  { value: "観光向け", label: "✈️ 観光向け" },
+                  { value: "日本人が多い", label: "🇯🇵 日本人が多い" },
                 ].map((type) => (
                   <div key={type.value} className="flex items-center space-x-2">
                     <Checkbox
@@ -77,7 +81,7 @@ const Preferences = () => {
                       checked={preferences.cafeTypes.includes(type.value)}
                       onCheckedChange={() => toggleArrayPreference("cafeTypes", type.value)}
                     />
-                    <Label htmlFor={`type-${type.value}`} className="cursor-pointer">
+                    <Label htmlFor={`type-${type.value}`} className="cursor-pointer text-sm">
                       {type.label}
                     </Label>
                   </div>
@@ -90,9 +94,9 @@ const Preferences = () => {
               <Label className="text-base font-semibold">価格帯</Label>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { value: "cheap", label: "₫ < 100k" },
-                  { value: "moderate", label: "₫₫ 100-200k" },
-                  { value: "expensive", label: "₫₫₫ > 200k" },
+                  { value: "cheap", label: "100,000 VND以下" },
+                  { value: "moderate", label: "100,000-200,000 VND" },
+                  { value: "expensive", label: "200,000 VND以上" },
                 ].map((price) => (
                   <div key={price.value} className="flex items-center space-x-2">
                     <Checkbox
@@ -100,7 +104,7 @@ const Preferences = () => {
                       checked={preferences.priceRange.includes(price.value)}
                       onCheckedChange={() => toggleArrayPreference("priceRange", price.value)}
                     />
-                    <Label htmlFor={`price-${price.value}`} className="cursor-pointer">
+                    <Label htmlFor={`price-${price.value}`} className="cursor-pointer text-xs leading-tight">
                       {price.label}
                     </Label>
                   </div>
@@ -133,10 +137,14 @@ const Preferences = () => {
               <Label className="text-base font-semibold">設備の好み</Label>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: "wifi", label: "📶 Wi-Fi" },
-                  { value: "outlets", label: "🔌 電源コンセント" },
-                  { value: "outdoor", label: "🌳 屋外席" },
-                  { value: "parking", label: "🚗 駐車場" },
+                  { value: "Wi-Fi", label: "📶 Wi-Fi" },
+                  { value: "Wi-Fi安定", label: "📡 Wi-Fi安定" },
+                  { value: "コンセント", label: "🔌 電源コンセント" },
+                  { value: "屋外席", label: "🌳 屋外席" },
+                  { value: "駐車場", label: "🚗 駐車場" },
+                  { value: "ペット可", label: "🐾 ペット可" },
+                  { value: "禁煙", label: "🚭 禁煙" },
+                  { value: "長時間OK", label: "⏰ 長時間OK" },
                 ].map((amenity) => (
                   <div key={amenity.value} className="flex items-center space-x-2">
                     <Checkbox

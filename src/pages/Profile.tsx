@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,11 +7,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, PenSquare, Coffee, User, Settings } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, PenSquare, Coffee, User, Settings, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import { UserPreferences } from "./Preferences";
+import { getAllCafes } from "@/lib/mock-data";
+
+interface UserReview {
+  id: string;
+  cafeId: number;
+  username: string;
+  rating: number;
+  drinkRating: number;
+  foodRating: number;
+  serviceRating: number;
+  atmosphereRating: number;
+  text: string;
+  date: string;
+  timestamp: number;
+}
 
 const Profile = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [isLoggedIn] = useState(true);
   
   // Profile state
@@ -29,13 +49,35 @@ const Profile = () => {
     amenities: [],
   });
 
+  // Reviews state
+  const [myReviews, setMyReviews] = useState<UserReview[]>([]);
+  const [editingReview, setEditingReview] = useState<UserReview | null>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
   useEffect(() => {
+    // Load profile from localStorage or set from current user
     const savedProfile = JSON.parse(localStorage.getItem("user_profile") || "{}");
-    if (savedProfile.name) setProfile(savedProfile);
+    if (savedProfile.name) {
+      setProfile(savedProfile);
+    } else if (user) {
+      // Auto-fill from user context if no saved profile
+      setProfile({
+        name: user.username || "",
+        email: user.email || "",
+        phone: "",
+      });
+    }
     
     const savedPreferences = JSON.parse(localStorage.getItem("user_preferences") || "{}");
     if (savedPreferences.cafeTypes) setPreferences(savedPreferences);
-  }, []);
+
+    // Load user's reviews from localStorage
+    if (user) {
+      const allComments = JSON.parse(localStorage.getItem("cafe_comments") || "[]");
+      const userReviews = allComments.filter((comment: UserReview) => comment.username === user.username);
+      setMyReviews(userReviews);
+    }
+  }, [user]);
 
   const toggleArrayPreference = (key: keyof UserPreferences, value: string) => {
     setPreferences((prev) => {
@@ -59,23 +101,48 @@ const Profile = () => {
     toast.success("好みを保存しました！");
   };
 
-  // Mock user reviews
-  const myReviews = [
-    {
-      cafeId: 1,
-      cafeName: "Highlands Coffee",
-      rating: 5,
-      date: "2024-10-15",
-      text: "雰囲気が最高！安定したWi-Fiと電源コンセントがあり、リモートワークに最適です。",
-    },
-    {
-      cafeId: 2,
-      cafeName: "The Coffee House",
-      rating: 5,
-      date: "2024-10-20",
-      text: "ベルベットのソファと最高の抹茶ラテがあるキャットカフェ。猫たちがとても可愛い！",
-    },
-  ];
+  const handleDeleteReview = (reviewId: string) => {
+    const allComments = JSON.parse(localStorage.getItem("cafe_comments") || "[]");
+    const updatedComments = allComments.filter((comment: UserReview) => comment.id !== reviewId);
+    localStorage.setItem("cafe_comments", JSON.stringify(updatedComments));
+    setMyReviews(myReviews.filter(review => review.id !== reviewId));
+    toast.success("レビューを削除しました");
+  };
+
+  const handleEditReview = (review: UserReview) => {
+    setEditingReview({ ...review });
+    setEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingReview) return;
+
+    // Calculate overall rating from individual ratings
+    const overallRating = (
+      editingReview.drinkRating +
+      editingReview.foodRating +
+      editingReview.serviceRating +
+      editingReview.atmosphereRating
+    ) / 4;
+
+    const updatedReview = { ...editingReview, rating: overallRating };
+
+    const allComments = JSON.parse(localStorage.getItem("cafe_comments") || "[]");
+    const updatedComments = allComments.map((comment: UserReview) => 
+      comment.id === updatedReview.id ? updatedReview : comment
+    );
+    localStorage.setItem("cafe_comments", JSON.stringify(updatedComments));
+    setMyReviews(myReviews.map(review => review.id === updatedReview.id ? updatedReview : review));
+    setEditDialogOpen(false);
+    setEditingReview(null);
+    toast.success("レビューを更新しました");
+  };
+
+  const getCafeName = (cafeId: number) => {
+    const cafes = getAllCafes();
+    const cafe = cafes.find(c => c.id === cafeId);
+    return cafe ? cafe.name : "Unknown Cafe";
+  };
 
   if (!isLoggedIn) {
     return (
@@ -183,10 +250,14 @@ const Profile = () => {
                   <Label className="text-base font-semibold">好きなカフェタイプ</Label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: "dog", label: "🐕 ドッグカフェ" },
-                      { value: "cat", label: "🐱 キャットカフェ" },
-                      { value: "work", label: "💼 仕事向け" },
-                      { value: "quiet", label: "🤫 静か" },
+                      { value: "犬カフェ", label: "🐕 ドッグカフェ" },
+                      { value: "猫カフェ", label: "🐱 キャットカフェ" },
+                      { value: "作業向き", label: "💼 作業向き" },
+                      { value: "静か", label: "🤫 静か" },
+                      { value: "会話向き", label: "💬 会話向き" },
+                      { value: "一人でも入りやすい", label: "👤 一人でも入りやすい" },
+                      { value: "観光向け", label: "✈️ 観光向け" },
+                      { value: "日本人が多い", label: "🇯🇵 日本人が多い" },
                     ].map((type) => (
                       <div key={type.value} className="flex items-center space-x-2">
                         <Checkbox
@@ -194,7 +265,7 @@ const Profile = () => {
                           checked={preferences.cafeTypes.includes(type.value)}
                           onCheckedChange={() => toggleArrayPreference("cafeTypes", type.value)}
                         />
-                        <Label htmlFor={`pref-type-${type.value}`} className="cursor-pointer">
+                        <Label htmlFor={`pref-type-${type.value}`} className="cursor-pointer text-sm">
                           {type.label}
                         </Label>
                       </div>
@@ -207,9 +278,9 @@ const Profile = () => {
                   <Label className="text-base font-semibold">価格帯</Label>
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { value: "cheap", label: "₫ < 100k" },
-                      { value: "moderate", label: "₫₫ 100-200k" },
-                      { value: "expensive", label: "₫₫₫ > 200k" },
+                      { value: "cheap", label: "100,000 VND以下" },
+                      { value: "moderate", label: "100,000-200,000 VND" },
+                      { value: "expensive", label: "200,000 VND以上" },
                     ].map((price) => (
                       <div key={price.value} className="flex items-center space-x-2">
                         <Checkbox
@@ -217,7 +288,7 @@ const Profile = () => {
                           checked={preferences.priceRange.includes(price.value)}
                           onCheckedChange={() => toggleArrayPreference("priceRange", price.value)}
                         />
-                        <Label htmlFor={`pref-price-${price.value}`} className="cursor-pointer">
+                        <Label htmlFor={`pref-price-${price.value}`} className="cursor-pointer text-xs leading-tight">
                           {price.label}
                         </Label>
                       </div>
@@ -250,10 +321,14 @@ const Profile = () => {
                   <Label className="text-base font-semibold">設備の好み</Label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: "wifi", label: "📶 Wi-Fi" },
-                      { value: "outlets", label: "🔌 電源コンセント" },
-                      { value: "outdoor", label: "🌳 屋外席" },
-                      { value: "parking", label: "🚗 駐車場" },
+                      { value: "Wi-Fi", label: "📶 Wi-Fi" },
+                      { value: "Wi-Fi安定", label: "📡 Wi-Fi安定" },
+                      { value: "コンセント", label: "🔌 電源コンセント" },
+                      { value: "屋外席", label: "🌳 屋外席" },
+                      { value: "駐車場", label: "🚗 駐車場" },
+                      { value: "ペット可", label: "🐾 ペット可" },
+                      { value: "禁煙", label: "🚭 禁煙" },
+                      { value: "長時間OK", label: "⏰ 長時間OK" },
                     ].map((amenity) => (
                       <div key={amenity.value} className="flex items-center space-x-2">
                         <Checkbox
@@ -289,30 +364,58 @@ const Profile = () => {
                   </p>
                 </div>
                 <div className="space-y-4">
-                  {myReviews.map((review, idx) => (
-                    <Card key={idx} className="shadow-card border-border/50">
+                  {myReviews.map((review) => (
+                    <Card key={review.id} className="shadow-card border-border/50">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between mb-3">
                           <Link
                             to={`/cafe/${review.cafeId}`}
                             className="font-semibold text-lg hover:text-primary transition-colors"
                           >
-                            {review.cafeName}
+                            {getCafeName(review.cafeId)}
                           </Link>
                           <span className="text-xs text-muted-foreground">{review.date}</span>
                         </div>
                         <div className="flex items-center gap-1 mb-3">
-                          {"⭐".repeat(review.rating)}
+                          {"⭐".repeat(Math.round(review.rating))}
                           <span className="text-sm text-muted-foreground ml-2">
-                            {review.rating}/5
+                            {review.rating.toFixed(1)}/5
                           </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mb-3 text-sm">
+                          <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground">ドリンク:</span>
+                            <span>{"⭐".repeat(review.drinkRating)}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground">フード:</span>
+                            <span>{"⭐".repeat(review.foodRating)}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground">サービス:</span>
+                            <span>{"⭐".repeat(review.serviceRating)}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground">雰囲気:</span>
+                            <span>{"⭐".repeat(review.atmosphereRating)}</span>
+                          </div>
                         </div>
                         <p className="text-muted-foreground">{review.text}</p>
                         <div className="flex gap-2 mt-4">
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleEditReview(review)}
+                          >
+                            <PenSquare className="h-3 w-3 mr-1" />
                             編集
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => handleDeleteReview(review.id)}
+                          >
+                            <Trash2 className="h-3 w-3 mr-1" />
                             削除
                           </Button>
                         </div>
@@ -341,6 +444,99 @@ const Profile = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Edit Review Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>レビューを編集</DialogTitle>
+            <DialogDescription>
+              カフェ体験の評価を更新してください
+            </DialogDescription>
+          </DialogHeader>
+          {editingReview && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>ドリンク評価</Label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditingReview({ ...editingReview, drinkRating: star })}
+                      className="text-2xl hover:scale-110 transition-transform"
+                    >
+                      {star <= editingReview.drinkRating ? "⭐" : "☆"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>フード評価</Label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditingReview({ ...editingReview, foodRating: star })}
+                      className="text-2xl hover:scale-110 transition-transform"
+                    >
+                      {star <= editingReview.foodRating ? "⭐" : "☆"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>サービス評価</Label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditingReview({ ...editingReview, serviceRating: star })}
+                      className="text-2xl hover:scale-110 transition-transform"
+                    >
+                      {star <= editingReview.serviceRating ? "⭐" : "☆"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>雰囲気評価</Label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setEditingReview({ ...editingReview, atmosphereRating: star })}
+                      className="text-2xl hover:scale-110 transition-transform"
+                    >
+                      {star <= editingReview.atmosphereRating ? "⭐" : "☆"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>コメント</Label>
+                <Textarea
+                  value={editingReview.text}
+                  onChange={(e) => setEditingReview({ ...editingReview, text: e.target.value })}
+                  placeholder="あなたの体験を詳しく教えてください..."
+                  rows={4}
+                />
+              </div>
+              <div className="flex gap-2 justify-end">
+                <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+                  キャンセル
+                </Button>
+                <Button onClick={handleSaveEdit}>
+                  保存
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

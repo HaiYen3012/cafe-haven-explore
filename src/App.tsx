@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LocationProvider } from "@/contexts/LocationContext";
+import { ChatProvider } from "@/contexts/ChatContext";
+import { Chatbot } from "@/components/Chatbot";
 import Index from "./pages/Index";
 import Search from "./pages/Search";
 import CafeDetail from "./pages/CafeDetail";
@@ -21,24 +23,27 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <LocationProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/cafe/:id" element={<CafeDetail />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/preferences" element={<Preferences />} />
-              <Route path="/add-cafe" element={<AddCafe />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <ChatProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/search" element={<Search />} />
+                <Route path="/cafe/:id" element={<CafeDetail />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/preferences" element={<Preferences />} />
+                <Route path="/add-cafe" element={<AddCafe />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Chatbot />
+            </BrowserRouter>
+          </TooltipProvider>
+        </ChatProvider>
       </LocationProvider>
     </AuthProvider>
   </QueryClientProvider>

@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 interface User {
   username: string;
   email: string;
+  role?: "user" | "admin";
 }
 
 interface AuthContextType {
@@ -26,13 +27,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = (username: string, _password: string) => {
-    const userData = { username, email: `${username}@example.com` };
+    // Admin account: username "admin", others are regular users
+    const role: "admin" | "user" = username.toLowerCase() === "admin" ? "admin" : "user";
+    const userData = { username, email: `${username}@example.com`, role };
     setUser(userData);
     localStorage.setItem("cafe_haven_user", JSON.stringify(userData));
   };
 
   const signup = (username: string, email: string, _password: string, skipPreferences = false) => {
-    const userData = { username, email };
+    const userData = { username, email, role: "user" as const };
     setUser(userData);
     localStorage.setItem("cafe_haven_user", JSON.stringify(userData));
     return skipPreferences;
