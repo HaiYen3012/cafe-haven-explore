@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useChatContext } from '@/contexts/ChatContext';
 import { useLocation } from '@/contexts/LocationContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { calculateDistance } from '@/lib/distance';
 
@@ -23,37 +24,60 @@ export const Chatbot = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { getCafes, getCafeById, getReviews, getCafeLink } = useChatContext();
   const { userLocation } = useLocation();
+  const { user } = useAuth();
 
-  // Load messages từ localStorage
-  const [messages, setMessages] = useState<Message[]>(() => {
-    const savedMessages = localStorage.getItem('chatbot_messages');
+  // Get storage key based on user
+  const getStorageKey = () => {
+    return user ? `chatbot_messages_${user.username}` : 'chatbot_messages_guest';
+  };
+
+  // Default welcome message
+  const getWelcomeMessage = (): Message[] => [
+    {
+      id: Date.now().toString(),
+      role: 'assistant',
+      content: 'こんにちは！ベトナムのカフェ探しをお手伝いします。どんなカフェをお探しですか？',
+      timestamp: new Date(),
+    },
+  ];
+
+  // Initialize with welcome message
+  const [messages, setMessages] = useState<Message[]>(getWelcomeMessage());
+
+  // Load chat khi user thay đổi
+  useEffect(() => {
+    if (!user) {
+      // Không load chat khi chưa login
+      return;
+    }
+
+    const storageKey = `chatbot_messages_${user.username}`;
+    const savedMessages = localStorage.getItem(storageKey);
+    
     if (savedMessages) {
       try {
         const parsed = JSON.parse(savedMessages);
-        // Convert timestamp strings back to Date objects
-        return parsed.map((msg: any) => ({
+        setMessages(parsed.map((msg: any) => ({
           ...msg,
           timestamp: new Date(msg.timestamp),
-        }));
+        })));
       } catch (e) {
         console.error('Error loading chat history:', e);
+        setMessages(getWelcomeMessage());
       }
+    } else {
+      // Chưa có chat history, set welcome message
+      setMessages(getWelcomeMessage());
     }
-    // Default welcome message
-    return [
-      {
-        id: '1',
-        role: 'assistant',
-        content: 'こんにちは！ベトナムのカフェ探しをお手伝いします。どんなカフェをお探しですか？',
-        timestamp: new Date(),
-      },
-    ];
-  });
+  }, [user?.username]); // Chỉ trigger khi username thay đổi
 
-  // Lưu messages vào localStorage mỗi khi thay đổi
+  // Lưu messages vào localStorage khi thay đổi
   useEffect(() => {
-    localStorage.setItem('chatbot_messages', JSON.stringify(messages));
-  }, [messages]);
+    if (user && messages.length > 0) {
+      const storageKey = `chatbot_messages_${user.username}`;
+      localStorage.setItem(storageKey, JSON.stringify(messages));
+    }
+  }, [messages, user?.username]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -310,15 +334,18 @@ ${JSON.stringify(cafeContext, null, 2)}
   };
 
   const clearChatHistory = () => {
-    const welcomeMessage: Message = {
-      id: Date.now().toString(),
-      role: 'assistant',
-      content: 'こんにちは！ベトナムのカフェ探しをお手伝いします。どんなカフェをお探しですか？',
-      timestamp: new Date(),
-    };
-    setMessages([welcomeMessage]);
-    localStorage.removeItem('chatbot_messages');
+    const welcomeMessage = getWelcomeMessage();
+    setMessages(welcomeMessage);
+    if (user) {
+      const storageKey = `chatbot_messages_${user.username}`;
+      localStorage.removeItem(storageKey);
+    }
   };
+
+  // Không hiện chatbot nếu chưa login
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
