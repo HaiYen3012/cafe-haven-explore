@@ -136,7 +136,7 @@ export const Chatbot = () => {
           likes: review.likes,
         })),
         totalReviews: reviews.length,
-        link: `http://localhost:8080${getCafeLink(cafe.id)}`,
+        link: `${window.location.origin}${getCafeLink(cafe.id)}`,
       };
     });
   };
@@ -179,7 +179,7 @@ ${JSON.stringify(cafeContext, null, 2)}
 
 重要なルール：
 1. 常に日本語で回答
-2. カフェを推薦する際は必ずリンクを含める（例：[カフェ名](http://localhost:8080/cafe/1)）
+2. カフェを推薦する際は必ずリンクを含める（例：[カフェ名](${window.location.origin}/cafe/1)）
 3. 距離情報を活用して近い場所を優先的に紹介
 4. 回答は150-250文字程度、詳しく説明
 5. 箇条書き（* または -）を使って読みやすく
