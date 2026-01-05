@@ -17,6 +17,8 @@ export const SearchBar = ({ defaultValue = "", variant = "hero" }: SearchBarProp
     e.preventDefault();
     if (query.trim()) {
       navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+    } else {
+      navigate('/search');
     }
   };
 
@@ -28,7 +30,7 @@ export const SearchBar = ({ defaultValue = "", variant = "hero" }: SearchBarProp
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="ハノイのカフェを探す..."
+          placeholder="カフェ名、住所、タグで検索..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className={`pl-10 ${isHero ? "h-14 text-lg" : "h-12"} bg-card shadow-card border-border/50 focus-visible:ring-primary`}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowLeft, PenSquare, Coffee, User, Settings, Trash2 } from "lucide-react";
+import { ArrowLeft, PenSquare, Coffee, User, Settings, Trash2, Camera, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { UserPreferences } from "./Preferences";
@@ -39,7 +39,10 @@ const Profile = () => {
     name: "",
     email: "",
     phone: "",
+    avatar: "",
   });
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Preferences state
   const [preferences, setPreferences] = useState<UserPreferences>({
@@ -65,6 +68,7 @@ const Profile = () => {
         name: user.username || "",
         email: user.email || "",
         phone: "",
+        avatar: "",
       });
     }
     
@@ -89,6 +93,27 @@ const Profile = () => {
           : [...array, value],
       };
     });
+  };
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("ファイルサイズは5MB以下にしてください");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile({ ...profile, avatar: reader.result as string });
+        toast.success("画像をアップロードしました");
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSaveProfile = () => {
@@ -201,7 +226,66 @@ const Profile = () => {
                 <CardTitle>プロフィール編集</CardTitle>
                 <CardDescription>あなたの情報を更新してください</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                {/* Avatar Section */}
+                <div className="flex flex-col items-center space-y-4 pb-6 border-b border-border">
+                  <div className="relative group">
+                    <div className="h-32 w-32 rounded-full overflow-hidden bg-secondary/30 flex items-center justify-center border-4 border-border shadow-lg">
+                      {profile.avatar ? (
+                        <img
+                          src={profile.avatar}
+                          alt="Avatar"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <User className="h-16 w-16 text-muted-foreground" />
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAvatarClick}
+                      className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all hover:scale-110"
+                      title="画像をアップロード"
+                    >
+                      <Camera className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground">プロフィール画像</p>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={handleAvatarClick}
+                        className="gap-2"
+                      >
+                        <Upload className="h-4 w-4" />
+                        画像をアップロード
+                      </Button>
+                      {profile.avatar && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setProfile({ ...profile, avatar: "" })}
+                        >
+                          削除
+                        </Button>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground">JPG, PNG (最大5MB)</p>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/jpg"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+
+                {/* Profile Form */}
                 <div className="space-y-2">
                   <Label htmlFor="name">お名前</Label>
                   <Input

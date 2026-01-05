@@ -40,6 +40,7 @@ interface Comment {
   id: string;
   cafeId: number;
   username: string;
+  userAvatar?: string;
   rating: number;
   drinkRating: number;
   foodRating: number;
@@ -75,10 +76,17 @@ const CafeDetail = () => {
   >({});
   const [sortBy, setSortBy] = useState<"mostLiked" | "earliest">("mostLiked");
   const [currency, setCurrency] = useState<"VND" | "JPY">("VND");
+  const [userAvatar, setUserAvatar] = useState<string>("");
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(favorites.includes(Number(id)));
+    
+    // Load user avatar
+    const savedProfile = JSON.parse(localStorage.getItem("user_profile") || "{}");
+    if (savedProfile.avatar) {
+      setUserAvatar(savedProfile.avatar);
+    }
 
     const savedComments = JSON.parse(
       localStorage.getItem("cafe_comments") || "[]"
@@ -106,6 +114,13 @@ const CafeDetail = () => {
   }
 
   const toggleFavorite = () => {
+    if (!isAuthenticated) {
+      toast.error("ログインが必要です", {
+        description: "お気に入りに追加するにはログインしてください",
+      });
+      return;
+    }
+    
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const newFavorites = isFavorite
       ? favorites.filter((fid: number) => fid !== cafe.id)
@@ -133,6 +148,7 @@ const CafeDetail = () => {
       id: Date.now().toString(),
       cafeId: cafe.id,
       username: user!.username,
+      userAvatar: userAvatar || undefined,
       rating:
         (newComment.drinkRating +
           newComment.foodRating +
@@ -367,17 +383,17 @@ const CafeDetail = () => {
               {(cafe.menuItems || []).map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-4 bg-secondary/20 rounded-lg shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="p-5 bg-card border-2 border-border/40 rounded-xl shadow-card hover:shadow-hover hover:border-primary/30 transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                 >
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground">
+                    <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                       {item.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
-                  <span className="text-base font-bold text-primary">
+                  <span className="text-lg font-bold text-primary bg-primary/10 px-4 py-2 rounded-lg whitespace-nowrap">
                     {currency === "VND"
                       ? `${item.priceVND.toLocaleString()} VND`
                       : `${item.priceJPY.toLocaleString()} JPY`}
@@ -925,16 +941,16 @@ const CafeDetail = () => {
                       className="space-y-3 p-4 bg-secondary/10 rounded-xl"
                     >
                       <div className="flex items-start gap-3">
-                        {"userAvatar" in review ? (
+                        {("userAvatar" in review && review.userAvatar) || review.userAvatar ? (
                           <img
-                            src={review.userAvatar}
-                            alt={review.userName}
-                            className="h-12 w-12 rounded-full"
+                            src={review.userAvatar || ("userAvatar" in review ? review.userAvatar : "")}
+                            alt={("userName" in review ? review.userName : review.username)}
+                            className="h-12 w-12 rounded-full object-cover border-2 border-border"
                           />
                         ) : (
-                          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border-2 border-border">
                             <span className="text-lg font-semibold text-primary">
-                              {review.username.charAt(0).toUpperCase()}
+                              {("userName" in review ? review.userName.charAt(0) : review.username.charAt(0)).toUpperCase()}
                             </span>
                           </div>
                         )}

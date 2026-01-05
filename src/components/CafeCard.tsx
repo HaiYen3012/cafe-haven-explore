@@ -1,10 +1,12 @@
 import { Heart, MapPin, Star, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Cafe } from "@/lib/mock-data";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface CafeCardProps {
   cafe: Cafe;
@@ -13,6 +15,8 @@ interface CafeCardProps {
 export const CafeCard = ({ cafe }: CafeCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [currency, setCurrency] = useState<"VND" | "JPY">("VND");
+  const { isAuthenticated } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -30,12 +34,26 @@ export const CafeCard = ({ cafe }: CafeCardProps) => {
   const toggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "ログインが必要です",
+        description: "お気に入りに追加するにはログインしてください",
+      });
+      return;
+    }
+    
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const newFavorites = isFavorite
       ? favorites.filter((id: number) => id !== cafe.id)
       : [...favorites, cafe.id];
     localStorage.setItem("favorites", JSON.stringify(newFavorites));
     setIsFavorite(!isFavorite);
+    
+    toast({
+      title: isFavorite ? "お気に入りから削除しました" : "お気に入りに追加しました",
+      description: cafe.name,
+    });
   };
 
   const getPriceDisplay = (priceRange: string) => {

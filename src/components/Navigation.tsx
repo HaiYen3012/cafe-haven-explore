@@ -22,12 +22,20 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const Navigation = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const { userLocation, locationError, isLoading, requestLocation, permissionStatus, locationName } = useLocation();
   const [showLocationDialog, setShowLocationDialog] = useState(false);
+  const [userAvatar, setUserAvatar] = useState<string>("");
+
+  useEffect(() => {
+    const savedProfile = JSON.parse(localStorage.getItem("user_profile") || "{}");
+    if (savedProfile.avatar) {
+      setUserAvatar(savedProfile.avatar);
+    }
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -69,12 +77,14 @@ export const Navigation = () => {
               探索
             </Button>
           </Link>
-          <Link to="/favorites">
-            <Button variant="ghost" className="hover:bg-secondary/70">
-              <Heart className="h-4 w-4 mr-2" />
-              お気に入り
-            </Button>
-          </Link>
+          {isAuthenticated && (
+            <Link to="/favorites">
+              <Button variant="ghost" className="hover:bg-secondary/70">
+                <Heart className="h-4 w-4 mr-2" />
+                お気に入り
+              </Button>
+            </Link>
+          )}
 
           {/* Location Button */}
           {permissionStatus === "granted" && isUsingRealLocation ? (
@@ -160,7 +170,17 @@ export const Navigation = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="gap-2">
-                    <User className="h-4 w-4" />
+                    {userAvatar ? (
+                      <div className="h-6 w-6 rounded-full overflow-hidden border border-border">
+                        <img
+                          src={userAvatar}
+                          alt="Avatar"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <User className="h-4 w-4" />
+                    )}
                     {user?.username}
                   </Button>
                 </DropdownMenuTrigger>
