@@ -208,7 +208,7 @@ const mockCafes: Cafe[] = [
   },
   {
     id: 3,
-    name: "Cộng Cà Phê",
+    name: "Cong Ca Phe",
     address: "78 Le Duan, Dong Da, Hanoi (レーズアン通り、ドンダー区、ハノイ)",
     lat: 21.018,
     lng: 105.828,
@@ -804,7 +804,7 @@ const mockCafes: Cafe[] = [
   },
   {
     id: 14,
-    name: "Sói Biển Café",
+    name: "Soi Bien Café",
     address: "23 Quan Thanh, Ba Dinh, Hanoi (クアンタン通り、バーディン区、ハノイ)",
     lat: 21.037,
     lng: 105.832,
@@ -850,7 +850,7 @@ const mockCafes: Cafe[] = [
   },
   {
     id: 15,
-    name: "Cafe Pho Cổ",
+    name: "Cafe Pho Co",
     address: "11 Hang Gai, Hoan Kiem, Hanoi (ハンガイ通り、ホアンキエム区、ハノイ)",
     lat: 21.034,
     lng: 105.853,
